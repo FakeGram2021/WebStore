@@ -5,6 +5,9 @@
 *.iml
 target/
 
+# Env file
+.env
+
 # Compiled class file
 *.class
 
