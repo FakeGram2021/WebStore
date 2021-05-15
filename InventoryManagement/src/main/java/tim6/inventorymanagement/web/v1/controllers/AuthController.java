@@ -41,7 +41,7 @@ public class AuthController {
         this.tokenUtilities = tokenUtilities;
     }
 
-    @PostMapping(value = "/login")
+    @PostMapping
     public ResponseEntity<String> login(@Valid @RequestBody LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(
