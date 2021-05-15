@@ -3,17 +3,15 @@ import Layout from "../../components/layout";
 import InventoryManagementClient from "../../lib/clients/InventoryManagementClient";
 import { useState } from "react";
 import axios from "axios";
-import { useCookies } from "react-cookie";
 import ArticleEdit from "../../components/articleEdit";
-import { CookiesLib } from "../../lib/cookies";
 import AlertSuccess from "../../components/alerts/alertSuccess";
 import AlertError from "../../components/alerts/alertError";
 import withAuth from "../../components/util/withAuth";
 import withErrorPage from "../../components/util/withErrorPage";
+import { TokensLib } from "../../lib/tokens";
 
 function Article({ data, errorStatus }) {
   const [article, setArticle] = useState(data);
-  const [cookie] = useCookies(["token"]);
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [alertError, setAlertError] = useState(false);
 
@@ -28,7 +26,7 @@ function Article({ data, errorStatus }) {
     try {
       await axios.put(`/api/articles/${article.id}`, article, {
         headers: {
-          Authorization: `Bearer ${cookie["token"]}`,
+          Authorization: `Bearer ${TokensLib.getToken()}`,
         },
       });
       setAlertSuccess(true);
@@ -79,15 +77,6 @@ function Article({ data, errorStatus }) {
 }
 
 export async function getServerSideProps(context) {
-  if (!CookiesLib.getAuthToken(context.req)) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
   try {
     const response = await InventoryManagementClient.get(
       `articles/${encodeURIComponent(context.params.id)}`

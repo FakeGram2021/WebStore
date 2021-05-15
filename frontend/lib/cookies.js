@@ -1,12 +1,15 @@
-import cookie from "cookie";
+import Cookies from "universal-cookie";
 
 export const CookiesLib = {
-  getAuthToken,
+  getCookies,
 };
 
-function getAuthToken(req) {
-  const cookieValues = cookie.parse(
-    req ? req.headers.cookie || "" : document.cookie
-  );
-  return cookieValues.token ? cookieValues.token : null;
+function getCookies(req = undefined) {
+  if (req) {
+    return new Cookies(req.headers.cookie || "");
+  } else if (typeof window !== "undefined") {
+    return new Cookies(document.cookie);
+  } else {
+    return null;
+  }
 }

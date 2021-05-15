@@ -2,12 +2,11 @@ import InventoryManagementClient from "../../../lib/clients/InventoryManagementC
 
 const handler = async (request, response) => {
   const { method, body, query } = request;
-  const { id } = query;
 
   switch (method) {
     case "GET":
       try {
-        const outcome = await InventoryManagementClient.get(`articles/${id}`, {
+        const outcome = await InventoryManagementClient.get("articles", {
           params: query,
           headers: request.headers,
         });
@@ -15,29 +14,17 @@ const handler = async (request, response) => {
       } catch (error) {
         return response.status(error.response.status).json(error.response.data);
       }
-    case "PUT":
+    case "POST":
       try {
-        const outcome = await InventoryManagementClient.put(
-          `articles/${id}`,
-          body,
-          { headers: request.headers }
-        );
-        return response.status(outcome.status).json(outcome.data);
-      } catch (error) {
-        return response.status(error.response.status).json(error.response.data);
-      }
-    case "DELETE":
-      try {
-        const outcome = await InventoryManagementClient.delete(
-          `articles/${id}`,
-          { headers: request.headers }
-        );
+        const outcome = await InventoryManagementClient.post("articles", body, {
+          headers: request.headers,
+        });
         return response.status(outcome.status).json(outcome.data);
       } catch (error) {
         return response.status(error.response.status).json(error.response.data);
       }
     default:
-      response.setHeader("Allow", "GET,PUT,DELETE");
+      response.setHeader("Allow", "GET, POST");
       return response.status(405);
   }
 };

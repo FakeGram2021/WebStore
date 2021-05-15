@@ -2,11 +2,11 @@ import Head from "next/head";
 import Layout from "../../components/layout";
 import { useState } from "react";
 import axios from "axios";
-import { useCookies } from "react-cookie";
 import ArticleEdit from "../../components/articleEdit";
 import AlertSuccess from "../../components/alerts/alertSuccess";
 import AlertError from "../../components/alerts/alertError";
 import withAuth from "../../components/util/withAuth";
+import { TokensLib } from "../../lib/tokens";
 
 function CreateArticle() {
   const [article, setArticle] = useState({
@@ -19,7 +19,6 @@ function CreateArticle() {
   });
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [alertError, setAlertError] = useState(false);
-  const [cookie] = useCookies(["token"]);
 
   const handleArticleFormInputChange = (name) => (event) => {
     const val = event.target.value;
@@ -32,7 +31,7 @@ function CreateArticle() {
     try {
       await axios.post("/api/articles", article, {
         headers: {
-          Authorization: `Bearer ${cookie["token"]}`,
+          Authorization: `Bearer ${TokensLib.getToken()}`,
         },
       });
       setAlertSuccess(true);

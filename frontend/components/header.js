@@ -1,9 +1,8 @@
 import Link from "next/link";
 import HeaderItem from "./headerItem";
-import { useCookies } from "react-cookie";
+import { TokensLib } from "../lib/tokens";
 
 const Header = () => {
-  const [cookie, setCookie, removeCookie] = useCookies(["token"]);
   return (
     <nav className="bg-white shadow-lg">
       <div className="md:flex items-center justify-between py-2 px-8 md:px-12">
@@ -12,10 +11,10 @@ const Header = () => {
             <a>A G E N T</a>
           </Link>
         </div>
-        {cookie["token"] ? (
+        {TokensLib.getToken() ? (
           <div>
             <HeaderItem link={"/articles/create"} text={"Add new article"} />
-            <span onClick={() => removeCookie("token")}>
+            <span onClick={() => TokensLib.removeToken()}>
               <HeaderItem link={"/"} text={"Logout"} />
             </span>
           </div>

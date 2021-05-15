@@ -2,17 +2,16 @@ import Layout from "../components/layout";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useCookies } from "react-cookie";
+import { TokensLib } from "../lib/tokens";
+import AlertError from "../components/alerts/alertError";
 
 function Login() {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [alertError, setAlertError] = useState(false);
   const router = useRouter();
-  const [cookie, setCookie] = useCookies(["token"]);
 
   const handleCredentialsChange = (name) => (event) => {
     const val = event.target.value;
@@ -23,20 +22,28 @@ function Login() {
     event.preventDefault();
     try {
       const response = await axios.post("api/auth", credentials);
-      setCookie("token", response.data, {
-        path: "/",
-        maxAge: 3600,
-        sameSite: true,
-      });
+      TokensLib.setToken(response.data);
       await router.push("/");
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      setAlertError(error.response.status);
     }
   };
 
   return (
     <Layout>
       <main className="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+        {alertError && (
+          <AlertError
+            text={
+              alertError === 403
+                ? "Invalid credentials"
+                : "Login not successful"
+            }
+            handleClose={() => setAlertError(false)}
+          />
+        )}
+
         <section>
           <h3 className="font-bold text-2xl">Administrator login</h3>
           <p className="text-gray-600 pt-2">Sign in to your account.</p>

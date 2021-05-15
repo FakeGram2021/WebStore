@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { CookiesLib } from "../../lib/cookies";
+import { TokensLib } from "../../lib/tokens";
 
 const withAuth = (Component) => {
   const withAuth = (props) => {
@@ -8,7 +8,7 @@ const withAuth = (Component) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
-      const token = CookiesLib.getAuthToken();
+      const token = TokensLib.getToken();
       setIsLoggedIn(token);
       if (!token) {
         router.push("/login");

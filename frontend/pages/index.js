@@ -6,13 +6,11 @@ import Layout from "../components/layout";
 import Pagination from "../components/pagination";
 import handler from "./api/auth";
 import axios from "axios";
-import { useCookies } from "react-cookie";
-import { CookiesLib } from "../lib/cookies";
 import AlertError from "../components/alerts/alertError";
 import { useState } from "react";
+import { TokensLib } from "../lib/tokens";
 
 function Index({ data, error, auth }) {
-  const [cookie] = useCookies(["token"]);
   const [alertError, setAlertError] = useState(false);
 
   const handleArticleDelete = async (id) => {
@@ -20,7 +18,7 @@ function Index({ data, error, auth }) {
     try {
       await axios.delete(`/api/articles/${id}`, {
         headers: {
-          Authorization: `Bearer ${cookie["token"]}`,
+          Authorization: `Bearer ${TokensLib.getToken()}`,
         },
       });
       Router.reload();
@@ -94,7 +92,7 @@ export async function getServerSideProps(context) {
       props: {
         data: response.data,
         error: null,
-        auth: CookiesLib.getAuthToken(context.req),
+        auth: TokensLib.getToken(context.req),
       },
     };
   } catch (error) {
@@ -102,7 +100,7 @@ export async function getServerSideProps(context) {
       props: {
         data: null,
         error: error.message,
-        auth: CookiesLib.getAuthToken(context.req),
+        auth: TokensLib.getToken(context.req),
       },
     };
   }

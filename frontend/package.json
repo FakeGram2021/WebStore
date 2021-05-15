@@ -1,5 +1,5 @@
 {
-  "name": "with-tailwindcss",
+  "name": "webstore-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,14 +14,11 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "axios": "^0.21.1",
     "cloudinary-core": "^2.11.4",
-    "cookie": "^0.4.1",
-    "js-cookie": "^2.2.1",
     "jwt-decode": "^3.1.2",
     "next": "latest",
     "prettier": "^2.3.0",
     "react": "^17.0.1",
     "react-cloudinary-upload-widget": "^1.4.3",
-    "react-cookie": "^4.0.3",
     "react-dom": "^17.0.1",
     "universal-cookie": "^4.0.4"
   },

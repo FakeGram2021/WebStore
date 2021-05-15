@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,19 +44,18 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<String> login(@Valid @RequestBody LoginDTO loginDTO) {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(
-                        loginDTO.getUsername(), loginDTO.getPassword());
-        this.authenticationManager.authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
         try {
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(
+                            loginDTO.getUsername(), loginDTO.getPassword());
+            this.authenticationManager.authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             UserDetails userDetails =
                     this.userDetailsService.loadUserByUsername(loginDTO.getUsername());
             String token = this.tokenUtilities.generateToken(userDetails);
             return new ResponseEntity<>(token, HttpStatus.OK);
-        } catch (UsernameNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (BadCredentialsException | UsernameNotFoundException ex) {
+            return new ResponseEntity<>("test", HttpStatus.FORBIDDEN);
         }
     }
 }

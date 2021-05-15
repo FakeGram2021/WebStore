@@ -1,19 +1,30 @@
 import jwtDecode from "jwt-decode";
-import Cookies from "universal-cookie";
+import { CookiesLib } from "./cookies";
 
 export const TokensLib = {
   getToken,
+  setToken,
   removeToken,
   decodeToken,
 };
 
-function getToken(req) {
-  const cookies = new Cookies(req ? req.headers.cookie || "" : document.cookie);
-  return cookies.get("token");
+function getToken(req = undefined) {
+  const cookies = CookiesLib.getCookies(req);
+  if (cookies) return cookies.get("token") ? cookies.get("token") : null;
+  return null;
 }
 
-function removeToken() {
-  const cookies = new Cookies(req ? req.headers.cookie || "" : document.cookie);
+function setToken(token, req = undefined) {
+  const cookies = CookiesLib.getCookies(req);
+  return cookies.set("token", token, {
+    path: "/",
+    maxAge: 3600,
+    sameSite: true,
+  });
+}
+
+function removeToken(req = undefined) {
+  const cookies = CookiesLib.getCookies(req);
   cookies.remove("token");
 }
 

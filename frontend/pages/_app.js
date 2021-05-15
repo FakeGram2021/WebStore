@@ -1,12 +1,7 @@
 import "tailwindcss/tailwind.css";
-import { CookiesProvider } from "react-cookie";
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <CookiesProvider>
-      <Component {...pageProps} />
-    </CookiesProvider>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default MyApp;
