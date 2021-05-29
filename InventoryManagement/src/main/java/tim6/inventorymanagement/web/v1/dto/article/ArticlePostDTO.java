@@ -19,13 +19,20 @@ public class ArticlePostDTO {
 
     private String description;
 
-    @NotNull
+    @NotNull(message = "Price is mandatory")
     @Min(value = 0, message = "Price cannot be less than 0")
     private BigDecimal price;
 
-    @NotNull
+    @NotNull(message = "Amount in stock is mandatory")
     @Min(value = 0, message = "Amount in stock cannot be less than 0")
     private int amountInStock;
 
     private String imageUrl;
+
+    public String getImageUrl() {
+        if (this.imageUrl == null || this.imageUrl.isBlank()) {
+            return "https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg";
+        }
+        return this.imageUrl;
+    }
 }

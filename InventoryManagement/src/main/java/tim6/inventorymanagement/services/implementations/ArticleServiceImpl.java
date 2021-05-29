@@ -31,12 +31,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void create(Article article) {
-        this.articleRepository.save(article);
+    public Article create(Article article) {
+        return this.articleRepository.save(article);
     }
 
     @Override
-    public void updateById(Article article, UUID id) {
+    public Article updateById(Article article, UUID id) {
         Article storedArticle = this.getById(id);
 
         storedArticle.setName(article.getName());
@@ -45,7 +45,7 @@ public class ArticleServiceImpl implements ArticleService {
         storedArticle.setAmountInStock(article.getAmountInStock());
         storedArticle.setImageUrl(article.getImageUrl());
 
-        this.articleRepository.save(storedArticle);
+        return this.articleRepository.save(storedArticle);
     }
 
     @Override

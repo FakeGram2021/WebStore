@@ -36,12 +36,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder)
+    public void configureAuthentication(
+            AuthenticationManagerBuilder authenticationManagerBuilder,
+            UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder)
             throws Exception {
 
         authenticationManagerBuilder
-                .userDetailsService(this.userDetailsService)
-                .passwordEncoder(this.passwordEncoder());
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
     }
 
     @Bean
