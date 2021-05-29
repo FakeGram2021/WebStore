@@ -14,4 +14,9 @@ public class ValidationErrorResponse {
     public void setViolations(List<Violation> violations) {
         this.violations = violations;
     }
+
+    @Override
+    public String toString() {
+        return "ValidationErrorResponse{" + "violations=" + this.violations + '}';
+    }
 }

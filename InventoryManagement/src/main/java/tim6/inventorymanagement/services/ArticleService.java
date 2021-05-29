@@ -12,9 +12,9 @@ public interface ArticleService {
 
     Article getById(UUID id);
 
-    void create(Article article);
+    Article create(Article article);
 
-    void updateById(Article article, UUID id);
+    Article updateById(Article article, UUID id);
 
     void deleteById(UUID id);
 }
