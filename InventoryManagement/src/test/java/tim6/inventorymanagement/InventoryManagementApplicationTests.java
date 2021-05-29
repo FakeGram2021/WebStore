@@ -1,13 +1,16 @@
 package tim6.inventorymanagement;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+import tim6.inventorymanagement.article.integration.*;
 
-@SpringBootTest
-class InventoryManagementApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
-
-}
+@RunWith(Suite.class)
+@SuiteClasses({
+    GetAllArticlesTest.class,
+    GetArticleByIdTest.class,
+    CreateArticleTest.class,
+    UpdateArticleTest.class,
+    DeleteArticleTest.class
+})
+public class InventoryManagementApplicationTests {}

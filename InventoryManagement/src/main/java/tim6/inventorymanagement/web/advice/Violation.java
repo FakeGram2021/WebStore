@@ -18,4 +18,16 @@ public class Violation {
     public String getMessage() {
         return this.message;
     }
+
+    @Override
+    public String toString() {
+        return "Violation{"
+                + "fieldName='"
+                + this.fieldName
+                + '\''
+                + ", message='"
+                + this.message
+                + '\''
+                + '}';
+    }
 }

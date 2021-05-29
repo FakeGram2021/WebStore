@@ -30,4 +30,11 @@ public class ArticlePutDTO {
     private String imageUrl;
 
     private long version;
+
+    public String getImageUrl() {
+        if (this.imageUrl == null || this.imageUrl.isBlank()) {
+            return "https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg";
+        }
+        return this.imageUrl;
+    }
 }

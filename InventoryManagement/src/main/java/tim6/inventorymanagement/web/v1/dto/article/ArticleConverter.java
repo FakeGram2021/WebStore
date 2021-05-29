@@ -1,7 +1,6 @@
 package tim6.inventorymanagement.web.v1.dto.article;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import tim6.inventorymanagement.models.entities.Article;
 
@@ -11,9 +10,9 @@ import java.util.stream.Collectors;
 
 public class ArticleConverter {
 
-    public static PageImpl<ArticleGetDTO> convert(Page<Article> articles, Pageable pageable) {
+    public static ArticlePage convert(Page<Article> articles, Pageable pageable) {
         List<ArticleGetDTO> content = ArticleConverter.convert(articles.getContent());
-        return new PageImpl<>(content, pageable, articles.getTotalPages());
+        return new ArticlePage(content, pageable, articles.getTotalPages());
     }
 
     public static List<ArticleGetDTO> convert(Collection<Article> articles) {
