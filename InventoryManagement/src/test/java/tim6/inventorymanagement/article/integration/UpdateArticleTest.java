@@ -22,7 +22,6 @@ import java.net.URI;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static tim6.inventorymanagement.util.ArticleUtil.assertArticleContentsEqual;
 
 @RunWith(SpringRunner.class)
@@ -53,7 +52,7 @@ public class UpdateArticleTest extends AbstractContainerBaseTest {
     @LocalServerPort private int port;
 
     @Test
-    public void testUpdateArticleReturnsOk() throws Exception {
+    public void testUpdateArticle() throws Exception {
         URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
         ArticlePutDTO articleToUpdate =
                 new ArticlePutDTO(
@@ -67,39 +66,6 @@ public class UpdateArticleTest extends AbstractContainerBaseTest {
                 this.sendPutRequest(apiEndpoint, articleToUpdate, this.getAuthToken());
 
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-    }
-
-    @Test
-    public void testUpdateArticleReturnsBody() throws Exception {
-        URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
-        ArticlePutDTO articleToUpdate =
-                new ArticlePutDTO(
-                        this.VALID_ARTICLE_NAME,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.VALID_ARTICLE_PRICE,
-                        this.VALID_ARTICLE_STOCK,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL,
-                        0);
-        ResponseEntity<ArticleGetDTO> response =
-                this.sendPutRequest(apiEndpoint, articleToUpdate, this.getAuthToken());
-
-        assertNotNull(response.getBody());
-    }
-
-    @Test
-    public void testUpdateArticleReturnsContent() throws Exception {
-        URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
-        ArticlePutDTO articleToUpdate =
-                new ArticlePutDTO(
-                        this.VALID_ARTICLE_NAME,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.VALID_ARTICLE_PRICE,
-                        this.VALID_ARTICLE_STOCK,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL,
-                        0);
-        ResponseEntity<ArticleGetDTO> response =
-                this.sendPutRequest(apiEndpoint, articleToUpdate, this.getAuthToken());
-
         assertArticleContentsEqual(
                 response.getBody(),
                 this.EXISTING_ARTICLE_ID,
@@ -171,24 +137,7 @@ public class UpdateArticleTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    public void testUpdateArticleInvalidNameReturnsBadRequest() throws Exception {
-        URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
-        ArticlePutDTO articleToUpdate =
-                new ArticlePutDTO(
-                        null,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.VALID_ARTICLE_PRICE,
-                        this.VALID_ARTICLE_STOCK,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL,
-                        0);
-        ResponseEntity<ArticleGetDTO> response =
-                this.sendPutRequest(apiEndpoint, articleToUpdate, this.getAuthToken());
-
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    public void testUpdateArticleInvalidNameReturnsMessage() throws Exception {
+    public void testUpdateArticleInvalidName() throws Exception {
         URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
         ArticlePutDTO articleToUpdate =
                 new ArticlePutDTO(
@@ -203,6 +152,7 @@ public class UpdateArticleTest extends AbstractContainerBaseTest {
                         apiEndpoint, articleToUpdate, this.getAuthToken());
 
         List<Violation> violations = response.getBody().getViolations();
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertEquals(violations.get(0).getFieldName(), "name");
         assertEquals(violations.get(0).getMessage(), "Name is mandatory");
     }
@@ -225,24 +175,7 @@ public class UpdateArticleTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    public void testUpdateArticleInvalidPriceReturnsBadRequest() throws Exception {
-        URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
-        ArticlePutDTO articleToUpdate =
-                new ArticlePutDTO(
-                        this.VALID_ARTICLE_NAME,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.INVALID_ARTICLE_PRICE_NEGATIVE,
-                        this.VALID_ARTICLE_STOCK,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL,
-                        0);
-        ResponseEntity<ArticleGetDTO> response =
-                this.sendPutRequest(apiEndpoint, articleToUpdate, this.getAuthToken());
-
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    public void testUpdateArticleInvalidPriceReturnsMessage() throws Exception {
+    public void testUpdateArticleInvalidPrice() throws Exception {
         URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
         ArticlePutDTO articleToUpdate =
                 new ArticlePutDTO(
@@ -257,6 +190,7 @@ public class UpdateArticleTest extends AbstractContainerBaseTest {
                         apiEndpoint, articleToUpdate, this.getAuthToken());
 
         List<Violation> violations = response.getBody().getViolations();
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertEquals(violations.get(0).getFieldName(), "price");
         assertEquals(violations.get(0).getMessage(), "Price cannot be less than 0");
     }
@@ -279,24 +213,7 @@ public class UpdateArticleTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    public void testUpdateArticleInvalidStockReturnsBadRequest() throws Exception {
-        URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
-        ArticlePutDTO articleToUpdate =
-                new ArticlePutDTO(
-                        this.VALID_ARTICLE_NAME,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.VALID_ARTICLE_PRICE,
-                        this.INVALID_ARTICLE_STOCK_NEGATIVE,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL,
-                        0);
-        ResponseEntity<ArticleGetDTO> response =
-                this.sendPutRequest(apiEndpoint, articleToUpdate, this.getAuthToken());
-
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    public void testUpdateArticleInvalidStockReturnsMessage() throws Exception {
+    public void testUpdateArticleInvalidStock() throws Exception {
         URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
         ArticlePutDTO articleToUpdate =
                 new ArticlePutDTO(
@@ -311,6 +228,7 @@ public class UpdateArticleTest extends AbstractContainerBaseTest {
                         apiEndpoint, articleToUpdate, this.getAuthToken());
 
         List<Violation> violations = response.getBody().getViolations();
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertEquals(violations.get(0).getFieldName(), "amountInStock");
         assertEquals(violations.get(0).getMessage(), "Amount in stock cannot be less than 0");
     }

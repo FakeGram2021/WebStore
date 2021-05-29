@@ -22,7 +22,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static tim6.inventorymanagement.util.ArticleUtil.assertArticleContentsEqual;
 
 @RunWith(SpringRunner.class)
@@ -49,7 +50,7 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
     @LocalServerPort private int port;
 
     @Test
-    public void testCreateArticleReturnsCreated() throws Exception {
+    public void testCreateArticle() throws Exception {
         URI apiEndpoint = this.buildPostUri();
         ArticlePostDTO articleToCreate =
                 new ArticlePostDTO(
@@ -62,37 +63,6 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
                 this.sendPostRequest(apiEndpoint, articleToCreate, this.getAuthToken());
 
         assertEquals(response.getStatusCode(), HttpStatus.CREATED);
-    }
-
-    @Test
-    public void testCreateArticleReturnsBody() throws Exception {
-        URI apiEndpoint = this.buildPostUri();
-        ArticlePostDTO articleToCreate =
-                new ArticlePostDTO(
-                        this.VALID_ARTICLE_NAME,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.VALID_ARTICLE_PRICE,
-                        this.VALID_ARTICLE_STOCK,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL);
-        ResponseEntity<ArticleGetDTO> response =
-                this.sendPostRequest(apiEndpoint, articleToCreate, this.getAuthToken());
-
-        assertNotNull(response.getBody());
-    }
-
-    @Test
-    public void testCreateArticleReturnsContent() throws Exception {
-        URI apiEndpoint = this.buildPostUri();
-        ArticlePostDTO articleToCreate =
-                new ArticlePostDTO(
-                        this.VALID_ARTICLE_NAME,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.VALID_ARTICLE_PRICE,
-                        this.VALID_ARTICLE_STOCK,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL);
-        ResponseEntity<ArticleGetDTO> response =
-                this.sendPostRequest(apiEndpoint, articleToCreate, this.getAuthToken());
-
         assertArticleContentsEqual(
                 response.getBody(),
                 this.VALID_ARTICLE_STOCK,
@@ -132,23 +102,7 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    public void testCreateArticleInvalidNameReturnsBadRequest() throws Exception {
-        URI apiEndpoint = this.buildPostUri();
-        ArticlePostDTO articleToCreate =
-                new ArticlePostDTO(
-                        null,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.VALID_ARTICLE_PRICE,
-                        this.VALID_ARTICLE_STOCK,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL);
-        ResponseEntity<ArticleGetDTO> response =
-                this.sendPostRequest(apiEndpoint, articleToCreate, this.getAuthToken());
-
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    public void testCreateArticleInvalidNameReturnsMessage() throws Exception {
+    public void testCreateArticleInvalidName() throws Exception {
         URI apiEndpoint = this.buildPostUri();
         ArticlePostDTO articleToCreate =
                 new ArticlePostDTO(
@@ -161,6 +115,7 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
                 this.sendPostRequestExpectingError(
                         apiEndpoint, articleToCreate, this.getAuthToken());
 
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertEquals(response.getBody().getViolations().get(0).getFieldName(), "name");
         assertEquals(response.getBody().getViolations().get(0).getMessage(), "Name is mandatory");
     }
@@ -182,23 +137,7 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    public void testCreateArticleInvalidPriceReturnsBadRequest() throws Exception {
-        URI apiEndpoint = this.buildPostUri();
-        ArticlePostDTO articleToCreate =
-                new ArticlePostDTO(
-                        this.VALID_ARTICLE_NAME,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.INVALID_ARTICLE_PRICE_NEGATIVE,
-                        this.VALID_ARTICLE_STOCK,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL);
-        ResponseEntity<ArticleGetDTO> response =
-                this.sendPostRequest(apiEndpoint, articleToCreate, this.getAuthToken());
-
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    public void testCreateArticleInvalidPriceReturnsMessage() throws Exception {
+    public void testCreateArticleInvalidPrice() throws Exception {
         URI apiEndpoint = this.buildPostUri();
         ArticlePostDTO articleToCreate =
                 new ArticlePostDTO(
@@ -211,6 +150,7 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
                 this.sendPostRequestExpectingError(
                         apiEndpoint, articleToCreate, this.getAuthToken());
 
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertEquals(response.getBody().getViolations().get(0).getFieldName(), "price");
         assertEquals(
                 response.getBody().getViolations().get(0).getMessage(),
@@ -234,7 +174,7 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    public void testCreateArticleInvalidStockReturnsBadRequest() throws Exception {
+    public void testCreateArticleInvalidStock() throws Exception {
         URI apiEndpoint = this.buildPostUri();
         ArticlePostDTO articleToCreate =
                 new ArticlePostDTO(
@@ -248,22 +188,6 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
                         apiEndpoint, articleToCreate, this.getAuthToken());
 
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    public void testCreateArticleInvalidStockReturnsMessage() throws Exception {
-        URI apiEndpoint = this.buildPostUri();
-        ArticlePostDTO articleToCreate =
-                new ArticlePostDTO(
-                        this.VALID_ARTICLE_NAME,
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.VALID_ARTICLE_PRICE,
-                        this.INVALID_ARTICLE_STOCK_NEGATIVE,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL);
-        ResponseEntity<ValidationErrorResponse> response =
-                this.sendPostRequestExpectingError(
-                        apiEndpoint, articleToCreate, this.getAuthToken());
-
         assertEquals(response.getBody().getViolations().get(0).getFieldName(), "amountInStock");
         assertEquals(
                 response.getBody().getViolations().get(0).getMessage(),
@@ -271,7 +195,7 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    public void testCreateArticleMultipleInvalidArgumentsContainsNameMessage() throws Exception {
+    public void testCreateArticleMultipleInvalidArguments() throws Exception {
         URI apiEndpoint = this.buildPostUri();
         ArticlePostDTO articleToCreate =
                 new ArticlePostDTO(
@@ -285,29 +209,13 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
                         apiEndpoint, articleToCreate, this.getAuthToken());
 
         List<Violation> violations = response.getBody().getViolations();
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertTrue(
                 violations.stream()
                         .anyMatch(
                                 v ->
                                         v.getFieldName().equals("name")
                                                 && v.getMessage().equals("Name is mandatory")));
-    }
-
-    @Test
-    public void testCreateArticleMultipleInvalidArgumentsContainsPriceMessage() throws Exception {
-        URI apiEndpoint = this.buildPostUri();
-        ArticlePostDTO articleToCreate =
-                new ArticlePostDTO(
-                        "",
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.INVALID_ARTICLE_PRICE_NEGATIVE,
-                        this.INVALID_ARTICLE_STOCK_NEGATIVE,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL);
-        ResponseEntity<ValidationErrorResponse> response =
-                this.sendPostRequestExpectingError(
-                        apiEndpoint, articleToCreate, this.getAuthToken());
-
-        List<Violation> violations = response.getBody().getViolations();
         assertTrue(
                 violations.stream()
                         .anyMatch(
@@ -315,23 +223,6 @@ public class CreateArticleTest extends AbstractContainerBaseTest {
                                         v.getFieldName().equals("price")
                                                 && v.getMessage()
                                                         .equals("Price cannot be less than 0")));
-    }
-
-    @Test
-    public void testCreateArticleMultipleInvalidArgumentsContainsStockMessage() throws Exception {
-        URI apiEndpoint = this.buildPostUri();
-        ArticlePostDTO articleToCreate =
-                new ArticlePostDTO(
-                        "",
-                        this.VALID_ARTICLE_DESCRIPTION,
-                        this.INVALID_ARTICLE_PRICE_NEGATIVE,
-                        this.INVALID_ARTICLE_STOCK_NEGATIVE,
-                        this.VALID_ARTICLE_TEST_IMAGE_URL);
-        ResponseEntity<ValidationErrorResponse> response =
-                this.sendPostRequestExpectingError(
-                        apiEndpoint, articleToCreate, this.getAuthToken());
-
-        List<Violation> violations = response.getBody().getViolations();
         assertTrue(
                 violations.stream()
                         .anyMatch(

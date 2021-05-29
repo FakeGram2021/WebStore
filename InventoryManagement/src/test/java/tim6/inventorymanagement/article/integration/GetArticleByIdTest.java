@@ -17,7 +17,6 @@ import tim6.inventorymanagement.web.v1.dto.article.ArticleGetDTO;
 import java.net.URI;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static tim6.inventorymanagement.util.ArticleUtil.assertArticleContentsEqual;
 
 @RunWith(SpringRunner.class)
@@ -32,26 +31,11 @@ public class GetArticleByIdTest extends AbstractContainerBaseTest {
     @LocalServerPort private int port;
 
     @Test
-    public void testGetArticleByValidIdReturnsSuccessful() throws Exception {
+    public void testGetArticleByValidId() throws Exception {
         URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
         ResponseEntity<ArticleGetDTO> response = this.sendGetRequest(apiEndpoint);
 
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-    }
-
-    @Test
-    public void testGetArticleByValidIdReturnsBody() throws Exception {
-        URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
-        ResponseEntity<ArticleGetDTO> response = this.sendGetRequest(apiEndpoint);
-
-        assertNotNull(response.getBody());
-    }
-
-    @Test
-    public void testGetArticleByValidIdReturnsValidContent() throws Exception {
-        URI apiEndpoint = this.buildUri(this.EXISTING_ARTICLE_ID);
-        ResponseEntity<ArticleGetDTO> response = this.sendGetRequest(apiEndpoint);
-
         assertArticleContentsEqual(
                 response.getBody(),
                 "6b112cd2-6e12-48cd-aa13-2b9b381b8fb7",
