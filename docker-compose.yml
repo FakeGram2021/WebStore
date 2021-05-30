@@ -1,0 +1,58 @@
+version: "3.8"
+services:
+  inventory-management:
+    image: djokicm/inventory-management:0.1.0
+    restart: on-failure
+    networks:
+      - web-store
+    ports:
+      - 8080:8080
+    environment:
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_DOMAIN: ${DB_DOMAIN:-database}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-webstore}
+      JWT_SECRET: ${JWT_SECRET:-changeIt}
+    depends_on:
+      database:
+        condition: service_healthy
+  webstore-frontend:
+    image: djokicm/webstore-frontend:0.1.0
+    restart: on-failure
+    networks:
+      - web-store
+    ports:
+      - 3000:3000
+    environment:
+      INVENTORY_MANAGEMENT_API: ${INVENTORY_MANAGEMENT_API:-http://inventory-management:8080/api}
+    depends_on:
+      - inventory-management
+  database:
+    image: postgres:${POSTGRES_VERSION:-13.2}
+    container_name: postgres
+    restart: always
+    networks:
+      - web-store
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DATABASE:-webstore}
+    volumes:
+      - database-data:/var/lib/postgres
+      - ./database-sql/schema.sql:/docker-entrypoint-initdb.d/1_initial_schemas.sql
+      - ./database-sql/data.sql:/docker-entrypoint-initdb.d/2_data.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  database-data:
+    name: server-database
+
+networks:
+  web-store:
+    name: web-store
+    driver: bridge
