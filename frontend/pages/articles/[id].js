@@ -8,7 +8,6 @@ import AlertSuccess from "../../components/alerts/alertSuccess";
 import AlertError from "../../components/alerts/alertError";
 import withAuth from "../../components/util/withAuth";
 import withErrorPage from "../../components/util/withErrorPage";
-import { TokensLib } from "../../lib/tokens";
 
 function Article({ data, errorStatus }) {
   const [article, setArticle] = useState(data);
@@ -24,11 +23,7 @@ function Article({ data, errorStatus }) {
     event.preventDefault();
 
     try {
-      await axios.put(`/api/articles/${article.id}`, article, {
-        headers: {
-          Authorization: `Bearer ${TokensLib.getToken()}`,
-        },
-      });
+      await axios.put(`/api/articles/${article.id}`, article);
       setAlertSuccess(true);
     } catch (error) {
       setAlertError(true);

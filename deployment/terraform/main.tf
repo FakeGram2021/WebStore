@@ -7,7 +7,7 @@ provider "heroku" {
 }
 
 resource "heroku_app" "inventory-management" {
-  name   = "devops21-inventory-management"
+  name   = "webstore-inventory-management"
   region = "eu"
   stack  = "container"
   config_vars = {
@@ -29,7 +29,7 @@ resource "heroku_addon" "database" {
 }
 
 resource "heroku_app" "frontend" {
-  name   = "devops21-webstore-frontend"
+  name   = "webstore-frontend"
   region = "eu"
   stack  = "container"
   config_vars = {

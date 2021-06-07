@@ -9,7 +9,7 @@ const handler = async (request, response) => {
       try {
         const outcome = await InventoryManagementClient.get(`articles/${id}`, {
           params: query,
-          headers: request.headers,
+          headers: { cookie: request.headers.cookie },
         });
         return response.status(outcome.status).json(outcome.data);
       } catch (error) {
@@ -20,7 +20,7 @@ const handler = async (request, response) => {
         const outcome = await InventoryManagementClient.put(
           `articles/${id}`,
           body,
-          { headers: request.headers }
+          { headers: { cookie: request.headers.cookie } }
         );
         return response.status(outcome.status).json(outcome.data);
       } catch (error) {
@@ -30,7 +30,7 @@ const handler = async (request, response) => {
       try {
         const outcome = await InventoryManagementClient.delete(
           `articles/${id}`,
-          { headers: request.headers }
+          { headers: { cookie: request.headers.cookie } }
         );
         return response.status(outcome.status).json(outcome.data);
       } catch (error) {

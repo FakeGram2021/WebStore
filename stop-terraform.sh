@@ -3,7 +3,7 @@
 HEROKU_EMAIL=${1}
 HEROKU_API_KEY=${2}
 TERRAFORM_PG_BACKEND=${3}
-CONTAINER_NAME=${4:-terraform-deploy}
+CONTAINER_NAME=${4:-terraform-destroy}
 
 docker create \
   --workdir /deployment \
@@ -14,7 +14,7 @@ docker create \
   --env JWT_SECRET="${JWT_SECRET}" \
   --name "$CONTAINER_NAME" \
   danijelradakovic/heroku-terraform \
-  deploy.sh
+  destroy.sh
 
 docker cp ../deployment/. "${CONTAINER_NAME}":/deployment/
 docker start -i "${CONTAINER_NAME}"

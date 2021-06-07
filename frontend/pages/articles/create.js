@@ -29,11 +29,7 @@ function CreateArticle() {
     event.preventDefault();
 
     try {
-      await axios.post("/api/articles", article, {
-        headers: {
-          Authorization: `Bearer ${TokensLib.getToken()}`,
-        },
-      });
+      await axios.post("/api/articles", article);
       setAlertSuccess(true);
     } catch (error) {
       setAlertError(true);
