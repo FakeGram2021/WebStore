@@ -39,3 +39,5 @@ jobs:
         name: Deploy to Heroku
         run: start-terraform.sh ${{ secrets.HEROKU_EMAIL }} ${{ secrets.HEROKU_ACCESS_TOKEN }} ${{ secrets.TERRAFORM_BACKEND_NAME }}
         shell: bash
+        with:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
