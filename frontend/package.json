@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "cloudinary-core": "^2.11.4",
     "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
     "next": "latest",
     "prettier": "^2.3.0",
     "react": "^17.0.1",

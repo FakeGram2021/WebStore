@@ -25,8 +25,14 @@ function Article({ data, errorStatus }) {
     try {
       await axios.put(`/api/articles/${article.id}`, article);
       setAlertSuccess(true);
+      setTimeout(() => {
+        setAlertSuccess(false);
+      }, 1250);
     } catch (error) {
       setAlertError(true);
+      setTimeout(() => {
+        setAlertError(false);
+      }, 1250);
     }
   };
 

@@ -7,11 +7,22 @@ import Pagination from "../components/pagination";
 import handler from "./api/auth";
 import axios from "axios";
 import AlertError from "../components/alerts/alertError";
+import AlertSuccess from "../components/alerts/alertSuccess";
 import { useState } from "react";
 import { TokensLib } from "../lib/tokens";
+import { CartLib } from "../lib/cart";
 
 function Index({ data, error, auth }) {
+  const [alertSuccess, setAlertSuccess] = useState(false);
   const [alertError, setAlertError] = useState(false);
+
+  const handleAddToBasket = (article) => () => {
+    CartLib.addArticleToCart(article);
+    setAlertSuccess(true);
+    setTimeout(() => {
+      setAlertSuccess(false);
+    }, 1250);
+  }
 
   const handleArticleDelete = async (id) => {
     console.log(id);
@@ -34,6 +45,12 @@ function Index({ data, error, auth }) {
         {error && (
           <AlertError text={"Could not load data"} handleClose={() => null} />
         )}
+        {alertSuccess && (
+          <AlertSuccess
+            text={"Article succesfully added to cart"}
+            handleClose={() => setAlertSuccess(false)}
+          />
+        )}
         {alertError && (
           <AlertError
             text={"Article could not be removed"}
@@ -48,13 +65,14 @@ function Index({ data, error, auth }) {
                   <ArticleCard
                     key={article.id}
                     auth={auth}
+                    article={article}
                     id={article.id}
                     name={article.name}
                     description={article.description}
                     price={article.price}
                     amountInStock={article.amountInStock}
                     imageUrl={article.imageUrl}
-                    handleAddToBasket={() => console.log(article.id)}
+                    handleAddToBasket={handleAddToBasket}
                     handleDeleteArticle={handleArticleDelete}
                   />
                 ))}
