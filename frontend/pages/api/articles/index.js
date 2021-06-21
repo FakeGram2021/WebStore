@@ -8,7 +8,7 @@ const handler = async (request, response) => {
       try {
         const outcome = await InventoryManagementClient.get("articles", {
           params: query,
-          headers: request.headers,
+          headers: { cookie: request.headers.cookie },
         });
         return response.status(outcome.status).json(outcome.data);
       } catch (error) {
@@ -17,7 +17,7 @@ const handler = async (request, response) => {
     case "POST":
       try {
         const outcome = await InventoryManagementClient.post("articles", body, {
-          headers: request.headers,
+          headers: { cookie: request.headers.cookie },
         });
         return response.status(outcome.status).json(outcome.data);
       } catch (error) {

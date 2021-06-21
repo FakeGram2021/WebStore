@@ -16,11 +16,7 @@ function Index({ data, error, auth }) {
   const handleArticleDelete = async (id) => {
     console.log(id);
     try {
-      await axios.delete(`/api/articles/${id}`, {
-        headers: {
-          Authorization: `Bearer ${TokensLib.getToken()}`,
-        },
-      });
+      await axios.delete(`/api/articles/${id}`);
       Router.reload();
     } catch (error) {
       setAlertError(true);
