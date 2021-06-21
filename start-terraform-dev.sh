@@ -6,7 +6,7 @@ TERRAFORM_PG_BACKEND=${3}
 CONTAINER_NAME=${4:-terraform-deploy}
 
 docker create \
-  --workdir /deployment/prod \
+  --workdir /deployment/dev \
   --entrypoint sh \
   --env HEROKU_API_KEY="${HEROKU_API_KEY}" \
   --env HEROKU_EMAIL="${HEROKU_EMAIL}" \

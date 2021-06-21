@@ -12,8 +12,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -32,13 +34,19 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String token = httpServletRequest.getHeader("Authorization");
-        if (token == null || !token.startsWith("Bearer ")) {
+
+        String token;
+        if (httpServletRequest.getCookies() != null) {
+            token = this.getTokenFromCookie(httpServletRequest);
+        } else {
+            token = this.getTokenFromHeader(httpServletRequest);
+        }
+
+        if (token == null) {
             chain.doFilter(request, response);
             return;
         }
 
-        token = token.substring("Bearer ".length());
         String username = this.tokenUtilities.getUsernameFromToken(token);
 
         if (username != null || SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -53,5 +61,25 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
             }
         }
         chain.doFilter(request, response);
+    }
+
+    private String getTokenFromHeader(HttpServletRequest httpServletRequest) {
+        String token;
+        token = httpServletRequest.getHeader("Authorization");
+        if (token != null) {
+            token = token.substring("Bearer ".length());
+        }
+        return token;
+    }
+
+    private String getTokenFromCookie(HttpServletRequest httpServletRequest) {
+        String token;
+        token =
+                Arrays.stream(httpServletRequest.getCookies())
+                        .filter(c -> c.getName().equals("token"))
+                        .findFirst()
+                        .map(Cookie::getValue)
+                        .orElse(null);
+        return token;
     }
 }

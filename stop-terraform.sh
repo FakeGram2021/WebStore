@@ -14,7 +14,7 @@ docker create \
   --env JWT_SECRET="${JWT_SECRET}" \
   --name "$CONTAINER_NAME" \
   danijelradakovic/heroku-terraform \
-  deploy.sh
+  destroy.sh
 
 docker cp deployment/. "${CONTAINER_NAME}":/deployment/
 docker start -i "${CONTAINER_NAME}"
