@@ -33,10 +33,10 @@ jobs:
       - name: Destroy previously Heroku deployed apps
         run: stop-terraform-dev.sh ${{ secrets.HEROKU_DEV_EMAIL }} ${{ secrets.HEROKU_DEV_ACCESS_TOKEN }} ${{ secrets.TERRAFORM_DEV_BACKEND_NAME }}
         shell: bash
-        with:
+        env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
       - name: Deploy apps to Heroku
         run: start-terraform-dev.sh ${{ secrets.HEROKU_DEV_EMAIL }} ${{ secrets.HEROKU_DEV_ACCESS_TOKEN }} ${{ secrets.TERRAFORM_DEV_BACKEND_NAME }}
         shell: bash
-        with:
+        env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
