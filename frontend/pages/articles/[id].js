@@ -30,8 +30,14 @@ function Article({ data, errorStatus }) {
         },
       });
       setAlertSuccess(true);
+      setTimeout(() => {
+        setAlertSuccess(false);
+      }, 1250);
     } catch (error) {
       setAlertError(true);
+      setTimeout(() => {
+        setAlertError(false);
+      }, 1250);
     }
   };
 

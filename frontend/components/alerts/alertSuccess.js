@@ -1,5 +1,5 @@
 const AlertSuccess = ({ text, handleClose }) => (
-  <div className="space-x-2 bg-green-50 p-4 rounded flex items-center text-green-600 my-10 -mt-40 shadow-lg mx-auto max-w-2xl w-full">
+  <div className="absolute bottom-0 right-0 space-x-4 bg-green-50 p-4 rounded flex items-center text-green-600 my-10 -mt-40 shadow-lg mx-auto max-w-2xl">
     <div className="">
       <svg
         xmlns="http://www.w3.org/2000/svg"
