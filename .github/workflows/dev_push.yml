@@ -24,6 +24,18 @@ jobs:
           context: InventoryManagement/.
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/inventory-management:dev
+      - name: Build and push Ordering
+        uses: docker/build-push-action@v2
+        with:
+          context: Ordering/.
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ordering:dev
+      - name: Build and push Ordering
+        uses: docker/build-push-action@v2
+        with:
+          context: Reporting/.
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/reporting:dev
       - name: Build and push frontend
         uses: docker/build-push-action@v2
         with:
