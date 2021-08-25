@@ -1,30 +1,36 @@
-INSERT INTO WEBSTORE.admin (id, email, password, username)
-VALUES ('12bf2831-a19c-4855-ac55-d28063dce1e7', 'admin@mail.com',
-        '$2a$10$WyGU0850Gt6l9niernBpb.58pCPz8XXEaI4qvOyj5rdEYIygCat/u', 'admin');
 
-INSERT INTO WEBSTORE.article (id, amount_in_stock, description, image_url, name, price, version) 
-VALUES  ('6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 10, 'Really nice blue shirt',
+DELETE FROM customer_order_items;
+
+DELETE FROM order_item;
+
+DELETE FROM customer_order;
+
+DELETE FROM article;
+
+INSERT INTO article (id, amount_in_stock, description, image_url, name, price, version)
+VALUES ('6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 30, 'Really nice blue shirt',
         'https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg',
         'Blue shirt S', 10, 0),
-        ('27b7c07b-115b-4343-8ff2-aed84785fe44', 5, 'Really nice blue shirt',
+       ('27b7c07b-115b-4343-8ff2-aed84785fe44', 35, 'Really nice blue shirt',
         'https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg',
         'Blue shirt M', 10, 0),
-        ('045474f0-0ecd-43b8-b172-b9324d8882a0', 3, 'Really nice blue shirt',
+       ('045474f0-0ecd-43b8-b172-b9324d8882a0', 23, 'Really nice blue shirt',
         'https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg',
         'Blue shirt L', 10, 0),
-        ('165bb151-aa28-4170-9b52-7769b5f8fb1f', 0, 'Really nice blue shirt',
+       ('165bb151-aa28-4170-9b52-7769b5f8fb1f', 10, 'Really nice blue shirt',
         'https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg',
         'Blue shirt XL', 10, 0),
-        ('6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 10, 'Bluest of shirts',
+       ('6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 40, 'Bluest of shirts',
         'https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg',
         'Blue shirt 1', 10, 0),
-        ('240a9b16-27ad-4b5b-91ab-ade05196b693', 2, 'Wow! Shirt, blue.',
+       ('240a9b16-27ad-4b5b-91ab-ade05196b693', 52, 'Wow! Shirt, blue.',
         'https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg',
         'Blue shirt 2', 50, 0),
-        ('13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 0, 'Very well made blue shirt with long description',
+       ('13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 0, 'Very well made blue shirt with long description',
         'https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg',
         'Blue shirt 3', 20, 0);
-INSERT INTO WEBSTORE.customer_order(id, creation_time, address, city, country, email, first_name, last_name, phone, zipcode, price)
+
+INSERT INTO customer_order(id, creation_time, address, city, country, email, first_name, last_name, phone, zipcode, price)
 VALUES ('78cec9d2-d8fb-11eb-b8bc-0242ac130003', '2021-06-03 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 20),
        ('2b48ea7a-d8fc-11eb-b8bc-0242ac130003', '2021-06-03 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 120),
        ('2b48ed90-d8fc-11eb-b8bc-0242ac130003', '2021-06-04 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 10),
@@ -43,49 +49,49 @@ VALUES ('78cec9d2-d8fb-11eb-b8bc-0242ac130003', '2021-06-03 10:23:54', 'Address'
        ('2b48fd80-d8fc-11eb-b8bc-0242ac130003', '2021-06-24 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 50),
        ('2b48fea2-d8fc-11eb-b8bc-0242ac130003', '2021-06-25 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 20);
 
-INSERT INTO WEBSTORE.order_item(id, article_id, quantity)
+INSERT INTO order_item(id, article_id, quantity)
 VALUES ('34b7f6a8-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 5),
-       ('34b7f91e-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 10),
-       ('34b7fa36-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 1),
-       ('34b7fb1c-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 2),
-       ('34b7fdba-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 5),
-       ('34b7fe82-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 1),
-       ('34b80490-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 2),
-       ('34b806a2-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 3),
-       ('34b8079c-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 4),
-       ('34b8085a-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 5),
-       ('34b80918-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 10),
-       ('34b81264-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 9),
-       ('34b815ac-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 8),
-       ('34b81674-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 7),
-       ('34b81732-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 6),
-       ('34b817f0-d8fe-11eb-b8bc-0242ac130003', '165bb151-aa28-4170-9b52-7769b5f8fb1f', 3),
-       ('34b818ae-d8fe-11eb-b8bc-0242ac130003', '165bb151-aa28-4170-9b52-7769b5f8fb1f', 4),
-       ('34b8196c-d8fe-11eb-b8bc-0242ac130003', '165bb151-aa28-4170-9b52-7769b5f8fb1f', 5),
-       ('34b81a2a-d8fe-11eb-b8bc-0242ac130003', '165bb151-aa28-4170-9b52-7769b5f8fb1f', 6),
-       ('34b81cdc-d8fe-11eb-b8bc-0242ac130003', '6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 11),
-       ('34b81da4-d8fe-11eb-b8bc-0242ac130003', '6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 2),
-       ('34b81e62-d8fe-11eb-b8bc-0242ac130003', '6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 3),
-       ('34b81f16-d8fe-11eb-b8bc-0242ac130003', '6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 1),
-       ('34b81fd4-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 6),
-       ('34b82088-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 8),
-       ('34b82146-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 9),
-       ('34b821fa-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 2),
-       ('34b8248e-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 4),
-       ('34b82556-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 1),
-       ('34b8260a-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 2),
-       ('34b826c8-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 3),
-       ('34b82808-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 4),
-       ('34b828da-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 5),
-       ('34b82998-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 6),
-       ('34b82c0e-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 7),
-       ('34b82cd6-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 8),
-       ('34b82d94-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 9),
-       ('34b82e52-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 2),
-       ('34b82f10-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 2),
-       ('34b82fce-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 1);
+    ('34b7f91e-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 10),
+    ('34b7fa36-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 1),
+    ('34b7fb1c-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 2),
+    ('34b7fdba-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 5),
+    ('34b7fe82-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 1),
+    ('34b80490-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 2),
+    ('34b806a2-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 3),
+    ('34b8079c-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 4),
+    ('34b8085a-d8fe-11eb-b8bc-0242ac130003', '27b7c07b-115b-4343-8ff2-aed84785fe44', 5),
+    ('34b80918-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 10),
+    ('34b81264-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 9),
+    ('34b815ac-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 8),
+    ('34b81674-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 7),
+    ('34b81732-d8fe-11eb-b8bc-0242ac130003', '045474f0-0ecd-43b8-b172-b9324d8882a0', 6),
+    ('34b817f0-d8fe-11eb-b8bc-0242ac130003', '165bb151-aa28-4170-9b52-7769b5f8fb1f', 3),
+    ('34b818ae-d8fe-11eb-b8bc-0242ac130003', '165bb151-aa28-4170-9b52-7769b5f8fb1f', 4),
+    ('34b8196c-d8fe-11eb-b8bc-0242ac130003', '165bb151-aa28-4170-9b52-7769b5f8fb1f', 5),
+    ('34b81a2a-d8fe-11eb-b8bc-0242ac130003', '165bb151-aa28-4170-9b52-7769b5f8fb1f', 6),
+    ('34b81cdc-d8fe-11eb-b8bc-0242ac130003', '6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 11),
+    ('34b81da4-d8fe-11eb-b8bc-0242ac130003', '6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 2),
+    ('34b81e62-d8fe-11eb-b8bc-0242ac130003', '6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 3),
+    ('34b81f16-d8fe-11eb-b8bc-0242ac130003', '6e9f4ec8-16f4-4f03-8ece-d8c38157c7e5', 1),
+    ('34b81fd4-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 6),
+    ('34b82088-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 8),
+    ('34b82146-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 9),
+    ('34b821fa-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 2),
+    ('34b8248e-d8fe-11eb-b8bc-0242ac130003', '240a9b16-27ad-4b5b-91ab-ade05196b693', 4),
+    ('34b82556-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 1),
+    ('34b8260a-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 2),
+    ('34b826c8-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 3),
+    ('34b82808-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 4),
+    ('34b828da-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 5),
+    ('34b82998-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 6),
+    ('34b82c0e-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 7),
+    ('34b82cd6-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 8),
+    ('34b82d94-d8fe-11eb-b8bc-0242ac130003', '13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 9),
+    ('34b82e52-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 2),
+    ('34b82f10-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 2),
+    ('34b82fce-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 1);
 
-insert into WEBSTORE.customer_order_items(customer_order_id, items_id)
+insert into customer_order_items(customer_order_id, items_id)
 VALUES ('78cec9d2-d8fb-11eb-b8bc-0242ac130003', '34b7f6a8-d8fe-11eb-b8bc-0242ac130003'),
        ('2b48eeb2-d8fc-11eb-b8bc-0242ac130003', '34b7f91e-d8fe-11eb-b8bc-0242ac130003'),
        ('2b48ed90-d8fc-11eb-b8bc-0242ac130003', '34b7fa36-d8fe-11eb-b8bc-0242ac130003'),
