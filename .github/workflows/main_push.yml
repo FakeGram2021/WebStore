@@ -47,6 +47,18 @@ jobs:
           context: InventoryManagement/.
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/inventory-management:latest, ${{ secrets.DOCKERHUB_USERNAME }}/inventory-management:$SEMVER
+      - name: Build and push Ordering
+        uses: docker/build-push-action@v2
+        with:
+          context: Ordering/.
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ordering:latest, ${{ secrets.DOCKERHUB_USERNAME }}/ordering:$SEMVER
+      - name: Build and push Reporting
+        uses: docker/build-push-action@v2
+        with:
+          context: Reporting/.
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/reporting:latest, ${{ secrets.DOCKERHUB_USERNAME }}/reporting:$SEMVER
       - name: Build and push frontend
         uses: docker/build-push-action@v2
         with:
