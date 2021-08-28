@@ -17,7 +17,7 @@ resource "heroku_app" "inventory-management" {
 
 resource "heroku_build" "inventory-management" {
   app = heroku_app.inventory-management.id
-
+  depends_on = [heroku_addon.database]
   source {
     path = "inventory-management"
   }

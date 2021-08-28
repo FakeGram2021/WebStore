@@ -1,8 +1,8 @@
-INSERT INTO WEBSTORE.admin (id, email, password, username)
+INSERT INTO admin (id, email, password, username)
 VALUES ('12bf2831-a19c-4855-ac55-d28063dce1e7', 'admin@mail.com',
         '$2a$10$WyGU0850Gt6l9niernBpb.58pCPz8XXEaI4qvOyj5rdEYIygCat/u', 'admin');
 
-INSERT INTO WEBSTORE.article (id, amount_in_stock, description, image_url, name, price, version) 
+INSERT INTO article (id, amount_in_stock, description, image_url, name, price, version) 
 VALUES  ('6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 10, 'Really nice blue shirt',
         'https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg',
         'Blue shirt S', 10, 0),
