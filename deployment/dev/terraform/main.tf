@@ -26,12 +26,14 @@ resource "heroku_build" "inventory-management" {
 resource "heroku_addon" "database" {
   app  = heroku_app.inventory-management.name
   plan = "heroku-postgresql:hobby-dev"
+
 }
 
 resource "heroku_app" "frontend" {
   name   = "dev-agent-frontend"
   region = "eu"
   stack  = "container"
+  depends_on = [heroku_build.inventory-management]
   config_vars = {
     INVENTORY_MANAGEMENT_API = "${heroku_app.inventory-management.web_url}api"
   }
