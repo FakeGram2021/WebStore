@@ -62,12 +62,12 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/webstore-frontend:latest, ${{ secrets.DOCKERHUB_USERNAME }}/webstore-frontend:${{ env.SEMVER }}
       - name: Destroy previously Heroku deployed apps
-        run: stop-terraform.sh ${{ secrets.HEROKU_EMAIL }} ${{ secrets.HEROKU_ACCESS_TOKEN }} ${{ secrets.TERRAFORM_BACKEND_NAME }}
+        run: ./stop-terraform.sh ${{ secrets.HEROKU_EMAIL }} ${{ secrets.HEROKU_ACCESS_TOKEN }} ${{ secrets.TERRAFORM_BACKEND_NAME }}
         shell: bash
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
       - name: Deploy apps to Heroku
-        run: start-terraform.sh ${{ secrets.HEROKU_EMAIL }} ${{ secrets.HEROKU_ACCESS_TOKEN }} ${{ secrets.TERRAFORM_BACKEND_NAME }}
+        run: ./start-terraform.sh ${{ secrets.HEROKU_EMAIL }} ${{ secrets.HEROKU_ACCESS_TOKEN }} ${{ secrets.TERRAFORM_BACKEND_NAME }}
         shell: bash
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
