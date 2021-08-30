@@ -17,17 +17,22 @@ services:
     depends_on:
       database:
         condition: service_healthy
-  webstore-frontend:
-    image: djokicm/webstore-frontend:0.1.0
+  ordering:
+    image: djokicm/ordering:0.1.0
     restart: on-failure
     networks:
       - web-store
     ports:
-      - 3000:3000
+      - 8081:8081
     environment:
-      INVENTORY_MANAGEMENT_API: ${INVENTORY_MANAGEMENT_API:-http://inventory-management:8080/api}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_DOMAIN: ${DB_DOMAIN:-database}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-webstore}
     depends_on:
-      - inventory-management
+      database:
+        condition: service_healthy
   database:
     image: postgres:${POSTGRES_VERSION:-13.2}
     container_name: postgres
@@ -38,6 +43,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DATABASE:-webstore}
+    ports:
+      - 5432:5432
     volumes:
       - database-data:/var/lib/postgres
       - ./database-sql/schema.sql:/docker-entrypoint-initdb.d/1_initial_schemas.sql
