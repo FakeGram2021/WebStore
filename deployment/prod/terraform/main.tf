@@ -69,6 +69,29 @@ resource "heroku_build" "frontend" {
   }
 }
 
+
+resource "heroku_app" "reporting" {
+  name   = "dev-agent-reporting"
+  region = "eu"
+  stack  = "container"
+  config_vars = {
+    JWT_SECRET = var.JWT_SECRET
+  }
+}
+
+resource "heroku_build" "reporting" {
+  app = heroku_app.reporting.id
+  depends_on = [heroku_build.ordering]
+  source {
+    path = "reporting"
+  }
+}
+
+resource "heroku_addon_attachment" "reporting_database" {
+  app_id = heroku_app.reporting.id
+  addon_id = heroku_addon.database.id
+}
+
 output "inventory-management_app_url" {
   value = "https://${heroku_app.inventory-management.name}.herokuapp.com"
 }

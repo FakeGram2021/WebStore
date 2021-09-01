@@ -55,6 +55,12 @@ jobs:
           context: Ordering/.
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ordering:latest, ${{ secrets.DOCKERHUB_USERNAME }}/ordering:${{ env.SEMVER }}
+      - name: Build and push Reporting
+        uses: docker/build-push-action@v2
+        with:
+          context: Reporting/.
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/reporting:latest, ${{ secrets.DOCKERHUB_USERNAME }}/reporting:${{ env.SEMVER }}
       - name: Build and push frontend
         uses: docker/build-push-action@v2
         with:

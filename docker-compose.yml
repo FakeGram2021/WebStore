@@ -1,7 +1,9 @@
 version: "3.8"
 services:
   inventory-management:
-    image: djokicm/inventory-management:0.1.0
+    build:
+      context: ./InventoryManagement
+      dockerfile: Dockerfile
     restart: on-failure
     networks:
       - web-store
@@ -18,7 +20,9 @@ services:
       database:
         condition: service_healthy
   ordering:
-    image: djokicm/ordering:0.1.0
+    build:
+      context: ./Ordering
+      dockerfile: Dockerfile
     restart: on-failure
     networks:
       - web-store
@@ -31,8 +35,38 @@ services:
       DB_PORT: ${DB_PORT:-5432}
       DB_NAME: ${DB_NAME:-webstore}
     depends_on:
-      database:
-        condition: service_healthy
+      - "inventory-management"
+  reporting:
+    build:
+      context: ./Reporting
+      dockerfile: Dockerfile
+    restart: on-failure
+    networks:
+      - web-store
+    ports:
+      - 8082:8082
+    environment:
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_DOMAIN: ${DB_DOMAIN:-database}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-webstore}
+    depends_on:
+      - "ordering"
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: on-failure
+    networks:
+      - web-store
+    ports:
+      - 3000:3000
+    environment:
+      INVENTORY_MANAGEMENT_API: ${INVENTORY_MANAGEMENT_API:-inventory-management:8080/api}
+      ORDERING_API: ${ORDERING_API:-ordering:8081/api}
+      REPORTING_API: ${REPORTING_API:-reporting:8082/api}
+      PORT: ${PORT:-3000}
   database:
     image: postgres:${POSTGRES_VERSION:-13.2}
     container_name: postgres
@@ -47,8 +81,6 @@ services:
       - 5432:5432
     volumes:
       - database-data:/var/lib/postgres
-      - ./database-sql/schema.sql:/docker-entrypoint-initdb.d/1_initial_schemas.sql
-      - ./database-sql/data.sql:/docker-entrypoint-initdb.d/2_data.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s

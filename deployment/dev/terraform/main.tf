@@ -51,6 +51,28 @@ resource "heroku_addon_attachment" "ordering_database" {
   addon_id = heroku_addon.database.id
 }
 
+resource "heroku_app" "reporting" {
+  name   = "dev-agent-reporting"
+  region = "eu"
+  stack  = "container"
+  config_vars = {
+    JWT_SECRET = var.JWT_SECRET
+  }
+}
+
+resource "heroku_build" "reporting" {
+  app = heroku_app.reporting.id
+  depends_on = [heroku_build.ordering]
+  source {
+    path = "reporting"
+  }
+}
+
+resource "heroku_addon_attachment" "reporting_database" {
+  app_id = heroku_app.reporting.id
+  addon_id = heroku_addon.database.id
+}
+
 resource "heroku_app" "frontend" {
   name   = "dev-agent-frontend"
   region = "eu"
@@ -58,6 +80,7 @@ resource "heroku_app" "frontend" {
   depends_on = [heroku_build.ordering]
   config_vars = {
     INVENTORY_MANAGEMENT_API = "${heroku_app.inventory-management.web_url}api"
+    ORDERING_API = "${heroku_app.ordering.web_url}api"
     ORDERING_API = "${heroku_app.ordering.web_url}api"
   }
 }
