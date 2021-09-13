@@ -15,8 +15,8 @@ VALUES ('78cec9d2-d8fb-11eb-b8bc-0242ac130003', '2021-06-03 10:23:54', 'Address'
        ('2b48fb00-d8fc-11eb-b8bc-0242ac130003', '2021-06-22 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 10),
        ('2b48fc0e-d8fc-11eb-b8bc-0242ac130003', '2021-06-22 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 40),
        ('2b48fd80-d8fc-11eb-b8bc-0242ac130003', '2021-06-24 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 50),
-       ('2b48fea2-d8fc-11eb-b8bc-0242ac130003', '2021-06-25 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 20);
-ON CONFLICT(id) DO NOTHING;
+       ('2b48fea2-d8fc-11eb-b8bc-0242ac130003', '2021-06-25 10:23:54', 'Address', 'City', 'Country', 'Email', 'John', 'Doe', '060/222-333', '15000', 20)
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO order_item(id, article_id, quantity)
 VALUES ('34b7f6a8-d8fe-11eb-b8bc-0242ac130003', '6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 5),

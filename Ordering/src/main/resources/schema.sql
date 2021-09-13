@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS ORDER_ITEM(
 CREATE TABLE IF NOT EXISTS CUSTOMER_ORDER_ITEMS(
     customer_order_id UUID,
     items_id UUID,
-    UNIQUE (items_id),
+    UNIQUE (customer_order_id, items_id),
     FOREIGN KEY (items_id) REFERENCES ORDER_ITEM(id),
     FOREIGN KEY (customer_order_id) REFERENCES CUSTOMER_ORDER(id)
 );
