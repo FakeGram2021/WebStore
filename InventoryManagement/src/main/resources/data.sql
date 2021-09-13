@@ -1,6 +1,7 @@
 INSERT INTO admin (id, email, password, username)
 VALUES ('12bf2831-a19c-4855-ac55-d28063dce1e7', 'admin@mail.com',
-        '$2a$10$WyGU0850Gt6l9niernBpb.58pCPz8XXEaI4qvOyj5rdEYIygCat/u', 'admin');
+        '$2a$10$WyGU0850Gt6l9niernBpb.58pCPz8XXEaI4qvOyj5rdEYIygCat/u', 'admin')
+ON CONFLICT(id) DO NOTHING;
 
 INSERT INTO article (id, amount_in_stock, description, image_url, name, price, version) 
 VALUES  ('6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 10, 'Really nice blue shirt',
@@ -23,4 +24,5 @@ VALUES  ('6b112cd2-6e12-48cd-aa13-2b9b381b8fb7', 10, 'Really nice blue shirt',
         'Blue shirt 2', 50, 0),
         ('13d2b5e7-14f0-48f4-9a8f-ad69fe267e9f', 0, 'Very well made blue shirt with long description',
         'https://res.cloudinary.com/dtddfx5ww/image/upload/v1621075575/WebStore/placeholder.jpg',
-        'Blue shirt 3', 20, 0);
+        'Blue shirt 3', 20, 0)
+ON CONFLICT(id) DO NOTHING;
