@@ -55,10 +55,11 @@ resource "heroku_app" "frontend" {
   name   = "prod-agent-frontend"
   region = "eu"
   stack  = "container"
-  depends_on = [heroku_build.ordering]
+  depends_on = [heroku_build.reporting]
   config_vars = {
     INVENTORY_MANAGEMENT_API = "${heroku_app.inventory-management.web_url}api"
     ORDERING_API = "${heroku_app.ordering.web_url}api"
+    REPORTS_API = "${heroku_app.reporting.web_url}api"
   }
 }
 
@@ -98,6 +99,10 @@ output "inventory-management_app_url" {
 
 output "ordering_app_url" {
   value = "https://${heroku_app.ordering.name}.herokuapp.com"
+}
+
+output "reporting_app_url" {
+  value = "https://${heroku_app.reporting.name}.herokuapp.com"
 }
 
 output "frontend_app_url" {
