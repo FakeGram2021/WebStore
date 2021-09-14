@@ -81,7 +81,7 @@ resource "heroku_app" "frontend" {
   config_vars = {
     INVENTORY_MANAGEMENT_API = "${heroku_app.inventory-management.web_url}api"
     ORDERING_API = "${heroku_app.ordering.web_url}api"
-    REPORTING_API = "${heroku_app.reporting.web_url}api"
+    REPORTS_API = "${heroku_app.reporting.web_url}api"
   }
 }
 
