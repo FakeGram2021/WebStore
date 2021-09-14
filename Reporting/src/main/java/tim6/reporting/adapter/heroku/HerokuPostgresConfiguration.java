@@ -3,6 +3,8 @@ package tim6.reporting.adapter.heroku;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.sql.DataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -27,10 +29,11 @@ public class HerokuPostgresConfiguration {
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 
-        return DataSourceBuilder.create()
-                .url(dbUrl)
-                .username(username)
-                .password(password)
-                .build();
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(dbUrl);
+        config.setUsername(username);
+        config.setPassword(password);
+        config.setMaximumPoolSize(5);
+        return new HikariDataSource(config);
     }
 }

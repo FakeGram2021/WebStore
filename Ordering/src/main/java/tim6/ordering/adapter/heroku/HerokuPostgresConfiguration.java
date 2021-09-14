@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 import java.net.URI;
 import java.net.URISyntaxException;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConditionalOnProperty(
@@ -28,10 +30,11 @@ public class HerokuPostgresConfiguration {
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 
-        return DataSourceBuilder.create()
-                .url(dbUrl)
-                .username(username)
-                .password(password)
-                .build();
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(dbUrl);
+        config.setUsername(username);
+        config.setPassword(password);
+        config.setMaximumPoolSize(5);
+        return new HikariDataSource(config);
     }
 }
