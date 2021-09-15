@@ -72,7 +72,7 @@ resource "heroku_build" "frontend" {
 
 
 resource "heroku_app" "reporting" {
-  name   = "dev-agent-reporting"
+  name   = "prod-agent-reporting"
   region = "eu"
   stack  = "container"
   config_vars = {
